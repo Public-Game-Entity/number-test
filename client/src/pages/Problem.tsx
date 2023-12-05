@@ -84,14 +84,15 @@ function ProblemPage() {
             ))}
 
             <div css={css({ display: showSolvePanel ? "" : "none" })}>
-                <Solve></Solve>
+                <Solve answer={numbers}></Solve>
             </div>
 
         </div>
     );
 }
 
-function Solve() {
+// { answer } 정답 props와 정답 체크 -> 정답 modal 표시 후 다음 문제
+function Solve({ answer }) {
     const [clickedNumbers, setClickedNumbers] = useState([-1, -1])
     const [value, setValue] = useState('')
 
@@ -107,10 +108,30 @@ function Solve() {
         }
     }
 
+    const isCurrectAnswer = (): boolean => {
+        const answerText = answer.join('')
+        if (answerText == '') {
+            return false
+        }
+
+        if (value == answerText) {
+            return true
+        }
+
+        return false
+    }
+
+    useEffect(() => {
+        const isAnswer = isCurrectAnswer()
+        if (isAnswer) {
+            console.log("f")
+        }
+    }, [value])
+
     return (
         <div>
-            <div css={css({ display: "flex" })}>
-                {value}
+            <div css={css({ display: "flex", textAlign: "center", justifyContent: "center", padding: "2rem" })}>
+                <p css={css({ color: "#D9D0EB" })}>{value}</p>
                 {/* <NumberBlock number={clickedNumbers[0]}></NumberBlock>
                 <NumberBlock number={clickedNumbers[1]}></NumberBlock> */}
 
