@@ -4,12 +4,15 @@ import React, { useState } from "react";
 import { css, keyframes } from '@emotion/react'
 
 
+type NumberComponentsType = {
+    number?: number | string
+    onClick?: any
+    icon?: string
+}
 
-function Number({ number }) {
-
-
+function Number({ number, onClick, icon = '' }: NumberComponentsType) {
     return (
-        <div css={css({ display: "flex", justifyContent: "center", 
+        <div onClick={onClick} css={css({ display: "flex", justifyContent: "center", 
             textAlign: "center", 
             alignItems: "center",  
             width: "4rem", 

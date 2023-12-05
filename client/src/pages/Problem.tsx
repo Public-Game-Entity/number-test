@@ -3,13 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { css, keyframes } from '@emotion/react'
 import { Number } from '../components/Number'
+import { NumberPad } from "../components/NumberPad";
 
 
 function ProblemPage() {
     const [numbers, setNumbers] = useState([])
+    const [numberLength, setNumberLength] = useState(4)
     const [showedNumbers, setShowedNumbers] = useState([])
     const [index, setIndex] = useState(0)
     const [intervalTime, setIntervalTime] = useState(2000)
+    const [showSolvePanel, setShowSolvePanel] = useState(false)
 
     const animation = css({
         display: "flex", 
@@ -31,22 +34,30 @@ function ProblemPage() {
         setIndex((index) => index + 1)
     }
 
+    const getRandomList = () => {
+        let list = []
+        for (let index = 0; index < numberLength; index++) {
+            const randomNumber = getRandomNumber()
+            list.push(randomNumber)
+        }
+
+        return list
+    }
+
 
     useEffect(() => {
         const startNumber = index * 2
         const endNumber = startNumber + 2
         const selectedNumbers =  numbers.slice(startNumber, endNumber)
         setShowedNumbers(selectedNumbers)
+
+        if (endNumber > numberLength) {
+            setShowSolvePanel(true)
+        }
     }, [index])
 
     useEffect(() => {
-        const maxLength = 10
-        let list = []
-        for (let index = 0; index < maxLength; index++) {
-            const randomNumber = getRandomNumber()
-            list.push(randomNumber)
-        }
-
+        const list = getRandomList()
         console.log(list)
 
         setNumbers(list)
@@ -62,13 +73,30 @@ function ProblemPage() {
 
     return (
         <div css={animation}>
+            <div css={css({ display: showSolvePanel ? "none" : "" })}>
+
+            </div>
             {showedNumbers.map(el => (
                 <Number number={el}></Number>
 
             ))}
 
+            <div css={css({ display: showSolvePanel ? "" : "none" })}>
+                <Solve></Solve>
+
+            </div>
+
         </div>
     );
+}
+
+function Solve() {
+    return (
+        <div>
+            <NumberPad></NumberPad>
+
+        </div>
+    )
 }
 
 

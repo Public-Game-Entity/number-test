@@ -96,11 +96,10 @@ function RootPage() {
                 animationDelay: "0.5s",
                 animationFillMode: "forwards" 
             })}>
-            <span css={css({ display: "block", fontSize: "3rem", animationName: `${waveHand}`, animationDuration: "0.8s", animationIterationCount: 2000 })} className="material-symbols-outlined">
-            right_click
-            </span>
-            <p>아무곳이나 클릭해서 게임을 시작하세요</p>
-
+                <span css={css({ display: "block", fontSize: "3rem", animationName: `${waveHand}`, animationDuration: "0.8s", animationIterationCount: 2000 })} className="material-symbols-outlined">
+                    right_click
+                </span>
+                <p>아무곳이나 클릭해서 게임을 시작하세요</p>
             </div>
 
 
