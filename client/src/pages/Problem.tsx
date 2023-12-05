@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { css, keyframes } from '@emotion/react'
-import { Number } from '../components/Number'
+import { NumberBlock } from '../components/Number'
 import { NumberPad } from "../components/NumberPad";
 
 
@@ -45,6 +45,8 @@ function ProblemPage() {
     }
 
 
+
+
     useEffect(() => {
         const startNumber = index * 2
         const endNumber = startNumber + 2
@@ -76,14 +78,13 @@ function ProblemPage() {
             <div css={css({ display: showSolvePanel ? "none" : "" })}>
 
             </div>
-            {showedNumbers.map(el => (
-                <Number number={el}></Number>
 
+            {showedNumbers.map(el => (
+                <NumberBlock number={el}></NumberBlock>
             ))}
 
             <div css={css({ display: showSolvePanel ? "" : "none" })}>
                 <Solve></Solve>
-
             </div>
 
         </div>
@@ -91,9 +92,30 @@ function ProblemPage() {
 }
 
 function Solve() {
+    const [clickedNumbers, setClickedNumbers] = useState([-1, -1])
+    const [value, setValue] = useState('')
+
+    const handleClickNumberPad = (e: any) => {
+        console.log(e.target.id)
+        const id = e.target.id
+        if (Number.isInteger(Number(id))) {
+            setValue(value + id)
+        }
+
+        if (id == "keyboard_backspace") {
+            setValue(value.slice(0, value.length - 1))
+        }
+    }
+
     return (
         <div>
-            <NumberPad></NumberPad>
+            <div css={css({ display: "flex" })}>
+                {value}
+                {/* <NumberBlock number={clickedNumbers[0]}></NumberBlock>
+                <NumberBlock number={clickedNumbers[1]}></NumberBlock> */}
+
+            </div>
+            <NumberPad onClick={handleClickNumberPad}></NumberPad>
 
         </div>
     )

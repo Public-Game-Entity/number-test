@@ -10,9 +10,9 @@ type NumberComponentsType = {
     icon?: string
 }
 
-function Number({ number, onClick, icon = '' }: NumberComponentsType) {
+function NumberBlock({ number, onClick, icon = '' }: NumberComponentsType) {
     return (
-        <div onClick={onClick} css={css({ display: "flex", justifyContent: "center", 
+        <div onClick={onClick} id={`${icon == "" ? number : icon}`} css={css({ display: "flex", justifyContent: "center", 
             textAlign: "center", 
             alignItems: "center",  
             width: "4rem", 
@@ -22,10 +22,16 @@ function Number({ number, onClick, icon = '' }: NumberComponentsType) {
             borderRadius: "0.4rem", 
             color: "#D9D0EB" 
         })}>
-            <span>{number}</span>
+            {icon == "" ? (
+                <span id={`${number}`}>{number}</span>
+
+            ) : (
+                <span id={icon} className="material-symbols-outlined">{icon}</span>
+
+            )}
             
         </div>
     );
 }
   
-export { Number };
+export { NumberBlock };
