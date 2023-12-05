@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { css, keyframes } from '@emotion/react'
 import { NumberBlock } from '../components/Number'
 import { NumberPad } from "../components/NumberPad";
+import { useHistory } from "react-router-dom";
+import { Modal } from "../components/Modal";
 
 
 function ProblemPage() {
@@ -45,8 +47,6 @@ function ProblemPage() {
     }
 
 
-
-
     useEffect(() => {
         const startNumber = index * 2
         const endNumber = startNumber + 2
@@ -86,6 +86,8 @@ function ProblemPage() {
             <div css={css({ display: showSolvePanel ? "" : "none" })}>
                 <Solve answer={numbers}></Solve>
             </div>
+            <Modal isOpen={true}>ss</Modal>
+
 
         </div>
     );
@@ -93,8 +95,10 @@ function ProblemPage() {
 
 // { answer } 정답 props와 정답 체크 -> 정답 modal 표시 후 다음 문제
 function Solve({ answer }) {
+    const history = useHistory()
     const [clickedNumbers, setClickedNumbers] = useState([-1, -1])
     const [value, setValue] = useState('')
+    const [isCurrect, setIsCurrect] = useState(false)
 
     const handleClickNumberPad = (e: any) => {
         console.log(e.target.id)
@@ -124,7 +128,10 @@ function Solve({ answer }) {
     useEffect(() => {
         const isAnswer = isCurrectAnswer()
         if (isAnswer) {
-            console.log("f")
+            setTimeout(() => {
+                setIsCurrect(true)
+
+            }, 500)
         }
     }, [value])
 
@@ -137,6 +144,8 @@ function Solve({ answer }) {
 
             </div>
             <NumberPad onClick={handleClickNumberPad}></NumberPad>
+
+            <Modal isOpen={isCurrect}>ss</Modal>
 
         </div>
     )

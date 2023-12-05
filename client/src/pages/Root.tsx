@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { css, keyframes } from '@emotion/react'
 import { useHistory } from "react-router-dom";
+import { fadeInAndOutOpacity, fadeInBackground, fadeOutOpacity, waveHand } from "../styles/keyframeAnimation";
 
 
 
@@ -11,53 +12,6 @@ function RootPage() {
     const [isClick, setClick] = useState(false)
     const [isShowDescription, setShowDescription] = useState(false)
 
-    const waveHand = keyframes`
-        0% {
-            transform: rotateZ(0deg);
-        }
-        25% {
-            transform: rotateZ(10deg);
-        }
-        75% {
-            transform: rotateZ(10deg);
-        }
-        100% {
-            transform: rotateZ(0deg);
-        }
-    `
-
-    const fadeInBackground = keyframes`
-        from {
-            background-color: #1D1C20;
-        }
-        to {
-            background-color: #151417;
-        }
-    `
-
-    const fadeOutOpacity = keyframes`
-        from {
-            opacity: 100%
-        }
-        to {
-            opacity: 0%
-        }
-    `
-    
-    const fadeOpacity = keyframes`
-        0% {
-            opacity: 0%
-        }
-        25% {
-            opacity: 100%
-        }
-        75% {
-            opacity: 100%
-        }
-        100% {
-            opacity: 0%
-        }
-    `
 
     const animation = css({
         display: "flex", 
@@ -108,7 +62,7 @@ function RootPage() {
                 color: "#D9D0EB", 
                 fontWeight: 700, 
                 fontSize: "1.618rem",
-                animationName: isShowDescription ? `${fadeOpacity}` : "",
+                animationName: isShowDescription ? `${fadeInAndOutOpacity}` : "",
                 animationDuration: "3s",
                 animationFillMode: "forwards"
             })}>보이는 숫자를 잘 기억하세요</p>
