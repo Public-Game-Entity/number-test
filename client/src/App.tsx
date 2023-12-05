@@ -9,6 +9,7 @@ import RootPage from './pages/Root'
 import NotfoundPage from './pages/Notfound'
 
 import './App.css'
+import ProblemPage from './pages/Problem';
 
 const App = () => {
     const isDarkmode = useSelector((state: any) => state.app.isDarkmode);
@@ -19,8 +20,9 @@ const App = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={RootPage} />
+                    <Route path="/problem" component={ProblemPage} />
 
-
+                    
                     <Route path='*' component={NotfoundPage} />
                 </Switch>
             </BrowserRouter>

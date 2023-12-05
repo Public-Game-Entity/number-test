@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import { css, keyframes } from '@emotion/react'
+import { useHistory } from "react-router-dom";
 
 
 
 function RootPage() {
+    const history = useHistory()
     const [isClick, setClick] = useState(false)
     const [isShowDescription, setShowDescription] = useState(false)
 
@@ -76,6 +78,10 @@ function RootPage() {
         setTimeout(() => {
             setShowDescription(true)
         }, 1000);
+
+        setTimeout(() => {
+            history.push("/problem")
+        }, 4000)
     }
 
     return (
@@ -110,5 +116,6 @@ function RootPage() {
         </div>
     );
 }
-  
+
+
 export default RootPage;
