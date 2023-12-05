@@ -9,6 +9,21 @@ function RootPage() {
     const [isClick, setClick] = useState(false)
     const [isShowDescription, setShowDescription] = useState(false)
 
+    const waveHand = keyframes`
+        0% {
+            transform: rotateZ(0deg);
+        }
+        25% {
+            transform: rotateZ(10deg);
+        }
+        75% {
+            transform: rotateZ(10deg);
+        }
+        100% {
+            transform: rotateZ(0deg);
+        }
+    `
+
     const fadeInBackground = keyframes`
         from {
             background-color: #1D1C20;
@@ -19,27 +34,27 @@ function RootPage() {
     `
 
     const fadeOutOpacity = keyframes`
-    from {
-        opacity: 100%
-    }
-    to {
-        opacity: 0%
-    }
+        from {
+            opacity: 100%
+        }
+        to {
+            opacity: 0%
+        }
     `
     
     const fadeOpacity = keyframes`
-    0% {
-        opacity: 0%
-    }
-    25% {
-        opacity: 100%
-    }
-    75% {
-        opacity: 100%
-    }
-    100% {
-        opacity: 0%
-    }
+        0% {
+            opacity: 0%
+        }
+        25% {
+            opacity: 100%
+        }
+        75% {
+            opacity: 100%
+        }
+        100% {
+            opacity: 0%
+        }
     `
 
     const animation = css({
@@ -65,7 +80,7 @@ function RootPage() {
 
     return (
         <div css={animation} onClick={handleClick}>
-            <p css={css({ 
+            <div css={css({ 
                 display: isShowDescription ? "none" : "",
                 color: "#D9D0EB", 
                 fontWeight: 500, 
@@ -74,7 +89,14 @@ function RootPage() {
                 animationDuration: "1s",
                 animationDelay: "0.5s",
                 animationFillMode: "forwards" 
-            })}>아무곳이나 클릭해서 게임을 시작하세요</p>
+            })}>
+            <span css={css({ display: "block", fontSize: "3rem", animationName: `${waveHand}`, animationDuration: "0.8s", animationIterationCount: 2000 })} className="material-symbols-outlined">
+            right_click
+            </span>
+            <p>아무곳이나 클릭해서 게임을 시작하세요</p>
+
+            </div>
+
 
             <p css={css({ 
                 display: isShowDescription ? "" : "none",
