@@ -180,4 +180,7 @@ function ProblemPage() {
 
 // { answer } 정답 props와 정답 체크 -> 정답 modal 표시 후 다음 문제
 
+// modal fade out
+// number exchange animation
+
 export default ProblemPage;

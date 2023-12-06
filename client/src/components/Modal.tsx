@@ -1,18 +1,30 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { css, keyframes } from '@emotion/react'
-import { fadeInBackground, fadeInOpacity } from "../styles/keyframeAnimation";
+import { fadeInBackground, fadeInOpacity, fadeOutOpacity } from "../styles/keyframeAnimation";
 
 
 
 function Modal({ children, isOpen = false }) {
+    const [animationName, setAnimationName] = useState<any>()
+    const [open, setOpen] = useState<any>()
 
+    useEffect(() => {
+        setAnimationName(isOpen ? fadeInOpacity : fadeOutOpacity)
+        if (isOpen == false) {
+            setTimeout(() => {
+                setOpen(false)
+            }, 300)
+        } else {
+            setOpen(true)
+        }
+    }, [isOpen])
 
 
     return (
         <div css={css({ 
-            display: isOpen ? "flex" : "none",
+            display: open ? "flex" : "none",
             position: "absolute",
             justifyContent: "center", 
             textAlign: "center", 
@@ -22,7 +34,7 @@ function Modal({ children, isOpen = false }) {
             width: "100%",
             height: "100%",
             backdropFilter: "brightness(60%)",
-            animationName: `${fadeInOpacity}`,
+            animationName: `${animationName}`,
             animationDuration: "0.3s",
             animationFillMode: "forwards"
         })}>
