@@ -30,6 +30,8 @@ function Modal({ children, isOpen = false }) {
                     display: "flex", 
                     backgroundColor: "#151417",
                     borderRadius: "0.4rem",
+                    justifyContent: "center", 
+                    textAlign: "center", 
                     width: "60vw",
                     height: "60vh",
                     opacity: "0%",

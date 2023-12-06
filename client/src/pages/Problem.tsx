@@ -6,15 +6,26 @@ import { NumberBlock } from '../components/Number'
 import { NumberPad } from "../components/NumberPad";
 import { useHistory } from "react-router-dom";
 import { Modal } from "../components/Modal";
+import { InputBox } from "../components/InputBox";
 
 
 function ProblemPage() {
+    const history = useHistory()
     const [numbers, setNumbers] = useState([])
     const [numberLength, setNumberLength] = useState(4)
     const [showedNumbers, setShowedNumbers] = useState([])
     const [index, setIndex] = useState(0)
+
     const [intervalTime, setIntervalTime] = useState(2000)
+    const [intervalNext, setIntervalNext] = useState<any>()
+
     const [showSolvePanel, setShowSolvePanel] = useState(false)
+    const [stage, setStage] = useState(1)
+
+    const [value, setValue] = useState('')
+    const [isCurrect, setIsCurrect] = useState(false)
+
+
 
     const animation = css({
         display: "flex", 
@@ -27,6 +38,32 @@ function ProblemPage() {
         boxShadow: "0 0 0 0.6rem #151417 inset",
         gap: "0.8rem"
     })
+
+
+    const handleClickNumberPad = (e: any) => {
+        console.log(e.target.id)
+        const id = e.target.id
+        if (Number.isInteger(Number(id))) {
+            setValue(value + id)
+        }
+
+        if (id == "keyboard_backspace") {
+            setValue(value.slice(0, value.length - 1))
+        }
+    }
+
+    const isCurrectAnswer = (): boolean => {
+        const answerText = numbers.join('')
+        if (answerText == '') {
+            return false
+        }
+
+        if (value == answerText) {
+            return true
+        }
+
+        return false
+    }
 
     const getRandomNumber = () => {
         return Math.floor(Math.random() * 10)
@@ -47,18 +84,42 @@ function ProblemPage() {
     }
 
 
+
+    useEffect(() => {
+        const isAnswer = isCurrectAnswer()
+        if (isAnswer) {
+            setTimeout(() => {
+                setIsCurrect(true)
+                setTimeout(() => {
+                    setIsCurrect(false)
+
+                    setStage((stage) => stage + 1)
+
+                }, 500)
+            }, 500)
+        }
+    }, [value])
+
+
     useEffect(() => {
         const startNumber = index * 2
         const endNumber = startNumber + 2
         const selectedNumbers =  numbers.slice(startNumber, endNumber)
         setShowedNumbers(selectedNumbers)
 
-        if (endNumber > numberLength) {
+        if (endNumber >= numberLength) {
             setShowSolvePanel(true)
         }
     }, [index])
 
     useEffect(() => {
+        clearInterval(intervalNext)
+
+        setShowSolvePanel(false)
+        setValue('')
+
+        setNumberLength((length) => length + 2)
+        setIndex(0)
         const list = getRandomList()
         console.log(list)
 
@@ -67,10 +128,12 @@ function ProblemPage() {
         const selectedNumbers = list.slice(0,2)
         setShowedNumbers(selectedNumbers)
 
-        setInterval(() => {
+        const interval = setInterval(() => {
             setNextSelectedNumber()
-        }, intervalTime)        
-    }, [])
+        }, intervalTime)     
+        
+        setIntervalNext(interval)
+    }, [stage])
 
 
     return (
@@ -84,9 +147,25 @@ function ProblemPage() {
             ))}
 
             <div css={css({ display: showSolvePanel ? "" : "none" })}>
-                <Solve answer={numbers}></Solve>
+                <div>
+                    <div css={css({ display: "flex", textAlign: "center", justifyContent: "center", padding: "2rem" })}>
+                        {/* <p css={css({ color: "#D9D0EB" })}>{value}</p> */}
+                        <InputBox>{value}</InputBox>
+                        {/* <NumberBlock number={clickedNumbers[0]}></NumberBlock>
+                        <NumberBlock number={clickedNumbers[1]}></NumberBlock> */}
+
+                    </div>
+                    <NumberPad onClick={handleClickNumberPad}></NumberPad>
+
+                </div>
             </div>
-            <Modal isOpen={true}>ss</Modal>
+
+            <Modal isOpen={isCurrect}>
+                <div css={css({ display: "flex", justifyContent: "center", textAlign: "center" })}>
+                    <p css={css({ color: "#D9D0EB" })}>정답입니다</p>
+
+                </div>
+            </Modal>
 
 
         </div>
@@ -94,62 +173,5 @@ function ProblemPage() {
 }
 
 // { answer } 정답 props와 정답 체크 -> 정답 modal 표시 후 다음 문제
-function Solve({ answer }) {
-    const history = useHistory()
-    const [clickedNumbers, setClickedNumbers] = useState([-1, -1])
-    const [value, setValue] = useState('')
-    const [isCurrect, setIsCurrect] = useState(false)
-
-    const handleClickNumberPad = (e: any) => {
-        console.log(e.target.id)
-        const id = e.target.id
-        if (Number.isInteger(Number(id))) {
-            setValue(value + id)
-        }
-
-        if (id == "keyboard_backspace") {
-            setValue(value.slice(0, value.length - 1))
-        }
-    }
-
-    const isCurrectAnswer = (): boolean => {
-        const answerText = answer.join('')
-        if (answerText == '') {
-            return false
-        }
-
-        if (value == answerText) {
-            return true
-        }
-
-        return false
-    }
-
-    useEffect(() => {
-        const isAnswer = isCurrectAnswer()
-        if (isAnswer) {
-            setTimeout(() => {
-                setIsCurrect(true)
-
-            }, 500)
-        }
-    }, [value])
-
-    return (
-        <div>
-            <div css={css({ display: "flex", textAlign: "center", justifyContent: "center", padding: "2rem" })}>
-                <p css={css({ color: "#D9D0EB" })}>{value}</p>
-                {/* <NumberBlock number={clickedNumbers[0]}></NumberBlock>
-                <NumberBlock number={clickedNumbers[1]}></NumberBlock> */}
-
-            </div>
-            <NumberPad onClick={handleClickNumberPad}></NumberPad>
-
-            <Modal isOpen={isCurrect}>ss</Modal>
-
-        </div>
-    )
-}
-
 
 export default ProblemPage;
