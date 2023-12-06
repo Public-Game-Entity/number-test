@@ -7,6 +7,7 @@ import { NumberPad } from "../components/NumberPad";
 import { useHistory } from "react-router-dom";
 import { Modal } from "../components/Modal";
 import { InputBox } from "../components/InputBox";
+import { Button } from "../components/Button";
 
 
 function ProblemPage() {
@@ -84,18 +85,18 @@ function ProblemPage() {
     }
 
 
+    const handleNextProblem = () => {
+        setIsCurrect(false)
+
+        setStage((stage) => stage + 1)
+    }
 
     useEffect(() => {
         const isAnswer = isCurrectAnswer()
         if (isAnswer) {
             setTimeout(() => {
                 setIsCurrect(true)
-                setTimeout(() => {
-                    setIsCurrect(false)
 
-                    setStage((stage) => stage + 1)
-
-                }, 500)
             }, 500)
         }
     }, [value])
@@ -161,10 +162,15 @@ function ProblemPage() {
             </div>
 
             <Modal isOpen={isCurrect}>
-                <div css={css({ display: "flex", justifyContent: "center", textAlign: "center" })}>
+                <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
                     <p css={css({ color: "#D9D0EB" })}>정답입니다</p>
 
+                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "0.8rem", width: "100%" })}>
+                        <Button onClick={handleNextProblem}>다음 문제</Button>
+                    </div>
+
                 </div>
+
             </Modal>
 
 

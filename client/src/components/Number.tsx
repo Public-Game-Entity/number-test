@@ -20,7 +20,8 @@ function NumberBlock({ number, onClick, icon = '' }: NumberComponentsType) {
             fontSize: "1.6rem",
             backgroundColor: "#1D1C20", 
             borderRadius: "0.4rem", 
-            color: "#D9D0EB" 
+            color: "#D9D0EB",
+            cursor: "pointer"
         })}>
             {icon == "" ? (
                 <span id={`${number}`}>{number}</span>
