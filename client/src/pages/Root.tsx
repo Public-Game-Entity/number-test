@@ -61,7 +61,7 @@ function RootPage() {
                 display: isShowDescription ? "" : "none",
                 color: "#D9D0EB", 
                 fontWeight: 700, 
-                fontSize: "1.618rem",
+                fontSize: "1.6rem",
                 animationName: isShowDescription ? `${fadeInAndOutOpacity}` : "",
                 animationDuration: "3s",
                 animationFillMode: "forwards"

@@ -163,9 +163,9 @@ function ProblemPage() {
 
             <Modal isOpen={isCurrect}>
                 <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
-                    <p css={css({ color: "#D9D0EB" })}>정답입니다</p>
+                    <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>정답입니다</p>
 
-                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "0.8rem", width: "100%" })}>
+                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
                         <Button onClick={handleNextProblem}>다음 문제</Button>
                     </div>
 
@@ -178,9 +178,7 @@ function ProblemPage() {
     );
 }
 
-// { answer } 정답 props와 정답 체크 -> 정답 modal 표시 후 다음 문제
 
-// modal fade out
 // number exchange animation
 
 export default ProblemPage;
