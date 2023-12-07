@@ -9,9 +9,10 @@ type NumberComponentsType = {
     number?: number | string
     onClick?: any
     icon?: string
+    randomNumber?: number
 }
 
-function NumberBlock({ number, onClick, icon = '' }: NumberComponentsType) {
+function NumberBlock({ number, onClick, icon = '', randomNumber }: NumberComponentsType) {
     const [animationName, setAnimationName] = useState<any>()
 
     useEffect(() => {
@@ -20,7 +21,7 @@ function NumberBlock({ number, onClick, icon = '' }: NumberComponentsType) {
             setAnimationName('')
 
         }, 400)
-    }, [number])
+    }, [randomNumber])
 
     return (
         <div onClick={onClick} id={`${icon == "" ? number : icon}`} css={css({ display: "flex", justifyContent: "center", 

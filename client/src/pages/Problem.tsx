@@ -25,6 +25,7 @@ function ProblemPage() {
 
     const [value, setValue] = useState('')
     const [isCurrect, setIsCurrect] = useState(false)
+    const [isWrong, setIsWrong] = useState(false)
 
 
 
@@ -87,6 +88,7 @@ function ProblemPage() {
 
     const handleNextProblem = () => {
         setIsCurrect(false)
+        setIsWrong(false)
 
         setStage((stage) => stage + 1)
     }
@@ -97,7 +99,13 @@ function ProblemPage() {
             setTimeout(() => {
                 setIsCurrect(true)
 
-            }, 500)
+            }, 300)
+        }
+
+        if (isAnswer == false && value.length >= numberLength - 2) {
+            setTimeout(() => {
+                setIsWrong(true)
+            }, 300)
         }
     }, [value])
 
@@ -144,7 +152,7 @@ function ProblemPage() {
             </div>
 
             {showedNumbers.map(el => (
-                <NumberBlock number={el}></NumberBlock>
+                <NumberBlock randomNumber={Math.random()} number={el}></NumberBlock>
             ))}
 
             <div css={css({ display: showSolvePanel ? "" : "none" })}>
@@ -161,6 +169,8 @@ function ProblemPage() {
                 </div>
             </div>
 
+            
+
             <Modal isOpen={isCurrect}>
                 <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
                     <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>정답입니다</p>
@@ -173,12 +183,25 @@ function ProblemPage() {
 
             </Modal>
 
+            <Modal isOpen={isWrong}>
+                <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
+                    <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>오답입니다</p>
+
+                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
+                        <Button onClick={handleNextProblem}>다음 문제</Button>
+                    </div>
+
+                </div>
+
+            </Modal>
+
+            
+
 
         </div>
     );
 }
 
-
-// number exchange animation
+// 오답여부 표시
 
 export default ProblemPage;
