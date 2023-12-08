@@ -27,8 +27,6 @@ function ProblemPage() {
     const [isCurrect, setIsCurrect] = useState(false)
     const [isWrong, setIsWrong] = useState(false)
 
-
-
     const animation = css({
         display: "flex", 
         justifyContent: "center", 
@@ -42,17 +40,7 @@ function ProblemPage() {
     })
 
 
-    const handleClickNumberPad = (e: any) => {
-        console.log(e.target.id)
-        const id = e.target.id
-        if (Number.isInteger(Number(id))) {
-            setValue(value + id)
-        }
 
-        if (id == "keyboard_backspace") {
-            setValue(value.slice(0, value.length - 1))
-        }
-    }
 
     const isCurrectAnswer = (): boolean => {
         const answerText = numbers.join('')
@@ -67,11 +55,15 @@ function ProblemPage() {
         return false
     }
 
-    const getRandomNumber = () => {
+    const isDesktop = (): boolean => {
+        return !navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
+    }
+
+    const getRandomNumber = (): number => {
         return Math.floor(Math.random() * 10)
     }
 
-    const setNextSelectedNumber = () => {
+    const setNextSelectedNumber = (): void => {
         setIndex((index) => index + 1)
     }
 
@@ -85,13 +77,40 @@ function ProblemPage() {
         return list
     }
 
-
     const handleNextProblem = () => {
         setIsCurrect(false)
         setIsWrong(false)
-
         setStage((stage) => stage + 1)
     }
+
+    const handleClickNumberPad = (e: any) => {
+        const id = e.target.id
+        if (Number.isInteger(Number(id))) {
+            setValue(value + id)
+        }
+
+        if (id == "keyboard_backspace") {
+            setValue(value.slice(0, value.length - 1))
+        }
+    }
+
+    const handleKeyInput = (e: any) => {
+        if (!isDesktop()) {
+           return false 
+        }
+
+        if (e.key == "Backspace") {
+            setValue((value) => value.slice(0, value.length - 1))
+            return true
+        }
+
+        if (!Number.isInteger(Number(e.key))) {
+            return false
+        }
+
+        setValue((value) => value + String(e.key))
+    }
+
 
     useEffect(() => {
         const isAnswer = isCurrectAnswer()
@@ -123,15 +142,12 @@ function ProblemPage() {
 
     useEffect(() => {
         clearInterval(intervalNext)
-
         setShowSolvePanel(false)
         setValue('')
-
         setNumberLength((length) => length + 2)
         setIndex(0)
-        const list = getRandomList()
-        console.log(list)
 
+        const list = getRandomList()
         setNumbers(list)
 
         const selectedNumbers = list.slice(0,2)
@@ -143,6 +159,10 @@ function ProblemPage() {
         
         setIntervalNext(interval)
     }, [stage])
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyInput)
+    }, [])
 
 
     return (
@@ -178,9 +198,7 @@ function ProblemPage() {
                     <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
                         <Button onClick={handleNextProblem}>다음 문제</Button>
                     </div>
-
                 </div>
-
             </Modal>
 
             <Modal isOpen={isWrong}>
@@ -190,14 +208,8 @@ function ProblemPage() {
                     <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
                         <Button onClick={handleNextProblem}>다음 문제</Button>
                     </div>
-
                 </div>
-
             </Modal>
-
-            
-
-
         </div>
     );
 }
