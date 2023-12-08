@@ -78,9 +78,15 @@ function ProblemPage() {
     }
 
     const handleNextProblem = () => {
-        setIsCurrect(false)
-        setIsWrong(false)
-        setStage((stage) => stage + 1)
+        if (isCurrect == true) {
+            setIsCurrect(false)
+            setIsWrong(false)
+            setStage((stage) => stage + 1)
+        } else {
+            setIsCurrect(false)
+            setIsWrong(false)
+            resetStage()
+        }
     }
 
     const handleClickNumberPad = (e: any) => {
@@ -109,6 +115,14 @@ function ProblemPage() {
         }
 
         setValue((value) => value + String(e.key))
+    }
+
+    const resetStage = () => {
+        clearInterval(intervalNext)
+        setValue('')
+        setNumberLength(4)
+        setIndex(0)
+        setStage(1)
     }
 
 
