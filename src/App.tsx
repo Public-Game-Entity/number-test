@@ -12,8 +12,6 @@ import './App.css'
 import ProblemPage from './pages/Problem';
 
 const App = () => {
-    const isDarkmode = useSelector((state: any) => state.app.isDarkmode);
-    const isLogin = useSelector((state: any) => state.auth.isLogin);
 
     return (
         <div>

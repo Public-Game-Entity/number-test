@@ -202,6 +202,5 @@ function ProblemPage() {
     );
 }
 
-// 오답여부 표시
 
 export default ProblemPage;
