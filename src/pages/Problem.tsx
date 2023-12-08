@@ -204,6 +204,8 @@ function ProblemPage() {
             <Modal isOpen={isWrong}>
                 <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
                     <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>오답입니다</p>
+                    <DifferenceDiaplay text1={numbers.join('')} text2={value}></DifferenceDiaplay>
+
 
                     <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
                         <Button onClick={handleNextProblem}>다음 문제</Button>
@@ -214,5 +216,42 @@ function ProblemPage() {
     );
 }
 
+function DifferenceDiaplay({ text1, text2 }) {
+    const [diffrenceIndex, setDiffrenceIndex] = useState([])
+
+    useEffect(() => {
+        const minLength = text1.length >= text2.length ? text2.length : text1.length
+        const diff = [text1.split(''), text2.split('')]
+        let indexList = []
+        for (let index = 0; index < minLength; index++) {
+            if (diff[0][index] == diff[1][index]) {
+                indexList.push(1)
+            } else {
+                indexList.push(0)
+            }
+            
+            setDiffrenceIndex(indexList)
+        }
+    }, [text1, text2])
+
+    return (
+        <div>
+            <p css={css({ color: "#D9D0EB", fontSize: "1rem" })}>{text1}</p>
+            <p css={css({ color: "#D9D0EB", fontSize: "1rem" })}>
+                {diffrenceIndex.map((value, index) => (
+                    <>
+                    {value == 0 ? (
+                        <span css={css({ color: "#ed9fb6" })}>{text2.split('')[index]}</span>
+                    ): (
+                        <span css={css({ color: "#8fdba3" })}>{text2.split('')[index]}</span>
+                    )}
+                    </>
+
+                ))}
+            </p>
+
+        </div>
+    )
+}
 
 export default ProblemPage;
