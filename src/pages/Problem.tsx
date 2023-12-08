@@ -86,6 +86,7 @@ function ProblemPage() {
             setIsCurrect(false)
             setIsWrong(false)
             resetStage()
+            setStage((stage) => Math.random())
         }
     }
 
@@ -119,10 +120,10 @@ function ProblemPage() {
 
     const resetStage = () => {
         clearInterval(intervalNext)
-        setValue('')
-        setNumberLength(4)
-        setIndex(0)
-        setStage(1)
+        setValue((value) => value = '')
+        setNumberLength((length) => length = 4)
+        setShowSolvePanel(false)
+        setIndex((index) => index = 0)
     }
 
 
@@ -217,7 +218,13 @@ function ProblemPage() {
 
             <Modal isOpen={isWrong}>
                 <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
-                    <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>오답입니다</p>
+                    {numbers.length - 2 <= 2 ? (
+                        <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>0자리 까지 외웠습니다</p>
+
+                    ) : (
+                        <p css={css({ color: "#D9D0EB", fontSize: "1.6rem" })}>{numbers.length - 2}자리 까지 외웠습니다</p>
+
+                    )}
                     <DifferenceDiaplay text1={numbers.join('')} text2={value}></DifferenceDiaplay>
 
 
