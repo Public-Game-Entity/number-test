@@ -101,6 +101,10 @@ function ProblemPage() {
         }
     }
 
+    const handleClickMaker = () => {
+        location.href = 'https://hhj.devent.kr/'
+    }
+
     const handleKeyInput = (e: any) => {
         if (!isDesktop()) {
            return false 
@@ -204,7 +208,6 @@ function ProblemPage() {
                 </div>
             </div>
 
-            
 
             <Modal isOpen={isCurrect}>
                 <div css={css({ display: "flex", justifyContent: "center", flexDirection: "column", flex: "1" })}>
@@ -228,8 +231,11 @@ function ProblemPage() {
                     <DifferenceDiaplay text1={numbers.join('')} text2={value}></DifferenceDiaplay>
 
 
-                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%" })}>
-                        <Button onClick={handleNextProblem}>다음 문제</Button>
+                    <div css={css({ display: "flex", justifyContent: "center", alignSelf: "center", marginTop: "auto", padding: "1rem", width: "100%", gap: "1rem" })}>
+                        <Button onClick={handleNextProblem}>처음으로</Button>
+                        <Button onClick={handleClickMaker}><span className="material-symbols-outlined">
+code
+</span></Button>
                     </div>
                 </div>
             </Modal>
@@ -274,5 +280,6 @@ function DifferenceDiaplay({ text1, text2 }) {
         </div>
     )
 }
+
 
 export default ProblemPage;
